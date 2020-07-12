@@ -19,6 +19,7 @@ const Parameters createParameters() {
   result.dt = toml::find_or(input, "dt", result.dt);
   result.t_out = toml::find_or(input, "t_out", result.t_out);
   result.N_out = toml::find_or(input, "N_out", result.N_out);
+  result.bc = toml::find_or(input, "bc", result.bc);
 
   return result;
 }

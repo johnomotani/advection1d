@@ -1,3 +1,5 @@
+#include <string>
+
 struct Parameters {
   /// Number of spatial grid points
   int Nz = 32;
@@ -13,6 +15,9 @@ struct Parameters {
 
   /// number of outputs
   int N_out = 100;
+
+  /// Incoming boundary condition
+  std::string bc = "periodic";
 };
 
 const Parameters createParameters();

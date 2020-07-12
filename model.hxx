@@ -25,5 +25,6 @@ private:
   const double dz;
 
   enum class BC { periodic, Dirichlet };
-  BC bc = BC::periodic;
+  const BC bc = BC::periodic;
+  BC stringToBC(std::string input);
 };
