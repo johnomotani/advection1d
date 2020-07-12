@@ -21,6 +21,9 @@ Solver::Solver(const Parameters parameters, const Model model, Output &output)
 }
 
 void Solver::run() {
+  // write initial state
+  writeOutput();
+
   for (int output_step = 0; output_step < N_out; ++output_step) {
     std::cout << output_step << " " << t << std::endl;
 
