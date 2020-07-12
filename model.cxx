@@ -39,6 +39,6 @@ double Model::fLower(const double t) const {
 void Model::initialisef(Array &f) const {
   for (size_t i = 0; i < f.size(); ++i) {
     const double zhat = (i - Nz / 2.0) / Nz;
-    f[i] = exp(-0.25 * zhat * zhat);
+    f[i] = exp(-16.0 * zhat * zhat);
   }
 }
