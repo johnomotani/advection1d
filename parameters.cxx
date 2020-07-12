@@ -7,7 +7,7 @@
 #ifdef GET_OPTION
 #error "GET_OPTION already defined. This should not happen"
 #endif
-#define GET_OPTION(x) result.x = toml::find_or(input, "x", result.x);
+#define GET_OPTION(x) result.x = toml::find_or(input, #x, result.x);
 
 const Parameters createParameters() {
   Parameters result;
