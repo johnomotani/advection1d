@@ -13,12 +13,20 @@ def load_data():
 
 def animate_f(t, f, save_as=None, fps=10):
     fig, ax = plt.subplots()
+
     line_block = amp.blocks.Line(f, ax=ax)
+
     timeline = amp.Timeline(t, fps=fps)
+
     animation = amp.Animation([line_block], timeline)
+
     ax.set_xlabel("z-index")
     ax.set_ylabel("f")
+
+    ax.set_ylim([f.min(), f.max()])
+
     animation.controls(timeline_slider_args={"text": "t"})
+
     if save_as is not None:
         from matplotlib.animation import PillowWriter
 
