@@ -1,5 +1,5 @@
 #!/bin/bash
 
-g++ -o advection1d main.cxx model.cxx
+g++ -std=c++14 -o advection1d array.cxx main.cxx model.cxx
 
 exit 0

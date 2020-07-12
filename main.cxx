@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "model.hxx"
 #include "parameters.hxx"
 
 int main() {
