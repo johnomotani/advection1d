@@ -7,7 +7,7 @@
 
 int main() {
 
-  const Parameters parameters;
+  const auto parameters = createParameters();
 
   std::cout << "running 1d advection..." << std::endl;
 

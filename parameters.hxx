@@ -14,3 +14,5 @@ struct Parameters {
   /// number of outputs
   int N_out = 100;
 };
+
+const Parameters createParameters();
