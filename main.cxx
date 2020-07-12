@@ -3,6 +3,7 @@
 #include "model.hxx"
 #include "output.hxx"
 #include "parameters.hxx"
+#include "solver.hxx"
 
 int main() {
 
@@ -22,6 +23,10 @@ int main() {
   const Model model(parameters);
 
   Output output;
+
+  Solver solver(parameters, model, output);
+
+  solver.run();
 
   return 0;
 }
