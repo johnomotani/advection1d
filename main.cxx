@@ -15,5 +15,7 @@ int main() {
   std::cout<<"t_out\t"<<parameters.t_out<<std::endl;
   std::cout<<"N_out\t"<<parameters.N_out<<std::endl;
 
+  const Model model(parameters);
+
   return 0;
 }
