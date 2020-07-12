@@ -2,6 +2,9 @@
 
 class Parameters; // Forward-declare to avoid including header here
 
+/// Provides upwind-discretised right-hand-side function
+/// rhs = - v * df/dz
+/// rhs[i] = v(t, z[i]) * (f[i] - f[i-1]) / dz
 class Model {
 public:
   Model(Parameters);
