@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "model.hxx"
+#include "output.hxx"
 #include "parameters.hxx"
 
 int main() {
@@ -19,6 +20,8 @@ int main() {
   std::cout << "N_out\t" << parameters.N_out << std::endl;
 
   const Model model(parameters);
+
+  Output output;
 
   return 0;
 }
