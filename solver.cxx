@@ -25,7 +25,7 @@ void Solver::run() {
   writeOutput();
 
   for (int output_step = 0; output_step < N_out; ++output_step) {
-    std::cout << output_step << " " << t << std::endl;
+    //std::cout << output_step << " " << t << std::endl;
 
     const int N_internal = round(((output_step + 1) * t_out - t) / dt);
 
