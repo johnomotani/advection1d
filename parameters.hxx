@@ -1,3 +1,6 @@
+#ifndef __PARAMETERS_H__
+#define __PARAMETERS_H__
+
 #include <string>
 
 struct Parameters {
@@ -18,6 +21,11 @@ struct Parameters {
 
   /// Incoming boundary condition
   std::string bc = "periodic";
+
+  /// Scheme to use for time-stepper
+  std::string solver_type = "euler";
 };
 
 const Parameters createParameters();
+
+#endif // __PARAMETERS_H__

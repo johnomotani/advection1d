@@ -3,7 +3,7 @@
 #include "model.hxx"
 #include "output.hxx"
 #include "parameters.hxx"
-#include "solver.hxx"
+#include "solvers/solver.hxx"
 
 int main() {
 
@@ -24,9 +24,9 @@ int main() {
 
   Output output;
 
-  Solver solver(parameters, model, output);
+  auto solver = createSolver(parameters, model, output);
 
-  solver.run();
+  solver->run();
 
   return 0;
 }

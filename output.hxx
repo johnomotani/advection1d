@@ -1,3 +1,6 @@
+#ifndef __OUTPUT_H__
+#define __OUTPUT_H__
+
 #include <fstream>
 
 class Output {
@@ -23,3 +26,5 @@ private:
   std::fstream f_file;
   std::fstream t_file;
 };
+
+#endif // __OUTPUT_H__

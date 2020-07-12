@@ -1,3 +1,8 @@
+#ifndef __MODEL_H__
+#define __MODEL_H__
+
+#include <string>
+
 #include "array.hxx"
 
 class Parameters; // Forward-declare to avoid including header here
@@ -28,3 +33,5 @@ private:
   const BC bc = BC::periodic;
   BC stringToBC(std::string input);
 };
+
+#endif // __MODEL_H__

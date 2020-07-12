@@ -2,6 +2,11 @@
 
 #include "parameters.hxx"
 
+#ifdef GET_OPTION
+#error "GET_OPTION already defined. This should not happen"
+#endif
+#define GET_OPTION(x) result.x = toml::find_or(input, "x", result.x);
+
 const Parameters createParameters() {
   Parameters result;
 
@@ -14,12 +19,15 @@ const Parameters createParameters() {
   }
 
   // Get values, using values set in parameters.hxx as defaults
-  result.Nz = toml::find_or(input, "Nz", result.Nz);
-  result.L = toml::find_or(input, "L", result.L);
-  result.dt = toml::find_or(input, "dt", result.dt);
-  result.t_out = toml::find_or(input, "t_out", result.t_out);
-  result.N_out = toml::find_or(input, "N_out", result.N_out);
-  result.bc = toml::find_or(input, "bc", result.bc);
+  GET_OPTION(Nz);
+  GET_OPTION(L);
+  GET_OPTION(dt);
+  GET_OPTION(t_out);
+  GET_OPTION(N_out);
+  GET_OPTION(bc);
+  GET_OPTION(solver_type);
 
   return result;
 }
+
+#undef GET_OPTION
