@@ -3,22 +3,21 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "../model.hxx"
-#include "../output.hxx"
 #include "../parameters.hxx"
 
 #include "forwardeuler.hxx"
 #include "rk4.hxx"
-#include "ssprk3.hxx"
 #include "solver.hxx"
+#include "ssprk3.hxx"
 
-Solver::Solver(const Parameters &parameters, const Model &model, Output &output)
+Solver::Solver(const Parameters &parameters, const Model *const model,
+               Output &output)
     : model(model), t(0.0), dt(parameters.dt), t_out(parameters.t_out),
       N_out(parameters.N_out), Nz_plus_1(parameters.Nz + 1), output(output) {
 
   f = createArray(Nz_plus_1);
 
-  model.initialisef(f);
+  model->initialisef(f);
 }
 
 void Solver::run() {
@@ -35,7 +34,7 @@ void Solver::run() {
       t += dt;
     }
 
-    model.applyBoundary(t, f);
+    model->applyBoundary(t, f);
     writeOutput();
   }
 
@@ -45,7 +44,7 @@ void Solver::run() {
 void Solver::writeOutput() { output.writeStep(t, f); }
 
 std::unique_ptr<Solver> createSolver(const Parameters &parameters,
-                                     const Model &model, Output &output) {
+                                     const Model *const model, Output &output) {
   const auto type = parameters.solver_type;
   if (type == "euler") {
     return std::unique_ptr<Solver>(new ForwardEuler(parameters, model, output));

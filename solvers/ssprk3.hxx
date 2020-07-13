@@ -7,7 +7,8 @@
 /// https://en.wikipedia.org/wiki/List_of_Runge-Kutta_methods#Third-order_Strong_Stability_Preserving_Runge-Kutta_(SSPRK3)
 class SSPRK3 : public Solver {
 public:
-  SSPRK3(const Parameters &parameters, const Model &model, Output &output);
+  SSPRK3(const Parameters &parameters, const Model *const model,
+         Output &output);
   ~SSPRK3() final = default;
 
 protected:

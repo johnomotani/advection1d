@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "model.hxx"
+#include "models/model.hxx"
 #include "output.hxx"
 #include "parameters.hxx"
 #include "solvers/solver.hxx"
@@ -11,11 +11,11 @@ int main() {
 
   const auto parameters = createParameters();
 
-  const Model model(parameters);
+  auto model = createModel(parameters);
 
   Output output;
 
-  auto solver = createSolver(parameters, model, output);
+  auto solver = createSolver(parameters, model.get(), output);
 
   solver->run();
 

@@ -24,6 +24,9 @@ struct Parameters {
 
   /// Scheme to use for time-stepper
   std::string solver_type = "euler";
+
+  /// Scheme to use for spatial discretisation
+  std::string spatial_type = "upwind";
 };
 
 const Parameters createParameters();

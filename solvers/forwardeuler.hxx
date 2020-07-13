@@ -7,7 +7,7 @@
 /// f[n+1] = f[n] + dt * rhs
 class ForwardEuler : public Solver {
 public:
-  ForwardEuler(const Parameters &parameters, const Model &model,
+  ForwardEuler(const Parameters &parameters, const Model *const model,
                Output &output);
   ~ForwardEuler() final = default;
 

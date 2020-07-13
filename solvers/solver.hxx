@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "../array.hxx"
-#include "../model.hxx"
+#include "../models/model.hxx"
 #include "../output.hxx"
 
 class Parameters;
@@ -12,7 +12,8 @@ class Parameters;
 /// Generic base class for explicit time-steppers
 class Solver {
 public:
-  Solver(const Parameters &parameters, const Model &model, Output &output);
+  Solver(const Parameters &parameters, const Model *const model,
+         Output &output);
   virtual ~Solver() = default;
 
   void run();
@@ -22,7 +23,7 @@ protected:
 
   void writeOutput();
 
-  Model model;
+  const Model *const model;
 
   double t;
   double dt;
@@ -38,6 +39,6 @@ private:
 };
 
 std::unique_ptr<Solver> createSolver(const Parameters &parameters,
-                                     const Model &model, Output &output);
+                                     const Model *const model, Output &output);
 
 #endif // __SOLVER_H__

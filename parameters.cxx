@@ -28,6 +28,7 @@ const Parameters createParameters() {
   GET_OPTION(N_out);
   GET_OPTION(bc);
   GET_OPTION(solver_type);
+  GET_OPTION(spatial_type);
 
   std::cout << std::endl
             << "Parameters" << std::endl
@@ -38,6 +39,7 @@ const Parameters createParameters() {
   std::cout << "t_out\t\t" << result.t_out << std::endl;
   std::cout << "N_out\t\t" << result.N_out << std::endl;
   std::cout << "solver_type\t" << result.solver_type << std::endl;
+  std::cout << "spatial_type\t" << result.spatial_type << std::endl;
 
   std::cout << std::endl;
 

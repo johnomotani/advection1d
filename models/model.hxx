@@ -1,20 +1,20 @@
 #ifndef __MODEL_H__
 #define __MODEL_H__
 
+#include <memory>
 #include <string>
 
-#include "array.hxx"
+#include "../array.hxx"
 
 class Parameters; // Forward-declare to avoid including header here
 
-/// Provides upwind-discretised right-hand-side function
-/// rhs = - v * df/dz
-/// rhs[i] = v(t, z[i]) * (f[i] - f[i-1]) / dz
+/// Base class for implementations providing right-hand-side function
 class Model {
 public:
-  Model(Parameters);
+  Model(const Parameters &parameters);
+  virtual ~Model() = default;
 
-  void rhs(const double t, Array &f, Array &k) const;
+  virtual void rhs(const double t, Array &f, Array &k) const = 0;
 
   double v(const double t, const int i) const;
 
@@ -24,7 +24,7 @@ public:
 
   void initialisef(Array &f) const;
 
-private:
+protected:
   const int Nz;
   const double L;
   const double dz;
@@ -33,5 +33,7 @@ private:
   const BC bc = BC::periodic;
   BC stringToBC(std::string input);
 };
+
+std::unique_ptr<const Model> createModel(const Parameters &parameters);
 
 #endif // __MODEL_H__

@@ -7,7 +7,7 @@
 /// https://en.wikipedia.org/wiki/Runge-Kutta_methods
 class RK4 : public Solver {
 public:
-  RK4(const Parameters &parameters, const Model &model, Output &output);
+  RK4(const Parameters &parameters, const Model *const model, Output &output);
   ~RK4() final = default;
 
 protected:
