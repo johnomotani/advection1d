@@ -9,7 +9,7 @@ class ForwardEuler : public Solver {
 public:
   ForwardEuler(const Parameters &parameters, const Model &model,
                Output &output);
-  ~ForwardEuler() {}
+  ~ForwardEuler() = default;
 
 protected:
   void updatef() final;

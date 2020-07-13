@@ -8,7 +8,7 @@
 class RK4 : public Solver {
 public:
   RK4(const Parameters &parameters, const Model &model, Output &output);
-  ~RK4() {}
+  ~RK4() = default;
 
 protected:
   void updatef() final;
