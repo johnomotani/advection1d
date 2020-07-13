@@ -15,7 +15,7 @@ public:
     t_file.close();
   }
 
-  void writeStep(const double t, const Array f) {
+  void writeStep(const double t, const Array &f) {
     t_file << t << std::endl;
 
     for (const auto &value : f) {
