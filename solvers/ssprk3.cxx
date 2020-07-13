@@ -4,10 +4,10 @@ template <typename M>
 SSPRK3<M>::SSPRK3(const Parameters &parameters, Output &output)
     : SolverBase<M>(parameters, output) {
 
-  k1 = createArray(Nz_plus_1);
-  k2 = createArray(Nz_plus_1);
-  k3 = createArray(Nz_plus_1);
-  f_temp = createArray(Nz_plus_1);
+  k1 = createArray(Nz_with_ghosts);
+  k2 = createArray(Nz_with_ghosts);
+  k3 = createArray(Nz_with_ghosts);
+  f_temp = createArray(Nz_with_ghosts);
 }
 
 template <typename M> void SSPRK3<M>::updatef() {

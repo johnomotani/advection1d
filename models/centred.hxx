@@ -19,12 +19,14 @@ public:
 
   void initialisef(Array &f) const;
 
+  const size_t Nz_with_ghosts;
+
 private:
   double v(const double t, const int i) const;
 
   double fLower(const double t) const;
 
-  const int Nz;
+  const size_t Nz;
   const double L;
   const double dz;
 

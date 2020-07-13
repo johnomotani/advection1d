@@ -13,9 +13,10 @@
 template <typename M>
 SolverBase<M>::SolverBase(const Parameters &parameters, Output &output)
     : model(parameters), t(0.0), dt(parameters.dt), t_out(parameters.t_out),
-      N_out(parameters.N_out), Nz_plus_1(parameters.Nz + 1), output(output) {
+      N_out(parameters.N_out), Nz_plus_1(parameters.Nz + 1),
+      Nz_with_ghosts(model.Nz_with_ghosts), output(output) {
 
-  f = createArray(Nz_plus_1);
+  f = createArray(Nz_with_ghosts);
 
   model.initialisef(f);
 }

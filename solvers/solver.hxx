@@ -35,10 +35,11 @@ protected:
   const M model;
 
   double t;
-  double dt;
-  double t_out;
-  int N_out;
-  size_t Nz_plus_1;
+  const double dt;
+  const double t_out;
+  const int N_out;
+  const size_t Nz_plus_1;
+  const size_t Nz_with_ghosts;
 
   // state vector
   Array f;

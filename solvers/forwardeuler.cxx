@@ -4,7 +4,7 @@ template <typename M>
 ForwardEuler<M>::ForwardEuler(const Parameters &parameters, Output &output)
     : SolverBase<M>(parameters, output) {
 
-  k = createArray(Nz_plus_1);
+  k = createArray(Nz_with_ghosts);
 }
 
 template <typename M> void ForwardEuler<M>::updatef() {

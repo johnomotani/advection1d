@@ -17,6 +17,7 @@ protected:
   using SolverBase<M>::t_out;
   using SolverBase<M>::N_out;
   using SolverBase<M>::Nz_plus_1;
+  using SolverBase<M>::Nz_with_ghosts;
   using SolverBase<M>::f;
 
   void updatef() final;

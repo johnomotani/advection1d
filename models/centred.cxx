@@ -5,15 +5,15 @@
 #include "centred.hxx"
 
 Centred::Centred(const Parameters &parameters)
-    : Nz(parameters.Nz), L(parameters.L), dz(parameters.L / parameters.Nz),
-      bc(stringToBC(parameters.bc)) {}
+    : Nz_with_ghosts(parameters.Nz + 2), Nz(parameters.Nz), L(parameters.L),
+      dz(parameters.L / parameters.Nz), bc(stringToBC(parameters.bc)) {}
 
 void Centred::rhs(const double t, Array &f, Array &k) const {
   // Calculate -v*df/dz and store the result in k
 
   applyBoundary(t, f);
 
-  for (size_t i = 1; i < f.size(); i++) {
+  for (size_t i = 1; i <= Nz; i++) {
     k[i] = -v(t, i) * (f[i + 1] - f[i - 1]) / (2.0 * dz);
   }
 }
@@ -24,9 +24,12 @@ void Centred::applyBoundary(const double t, Array &f) const {
   switch (bc) {
   case BC::periodic:
     f[0] = f[Nz];
+    f[Nz + 1] = f[1];
     break;
   case BC::Dirichlet:
     f[0] = fLower(t);
+    // Neumann outgoing boundary condition
+    f[Nz + 1] = f[Nz];
     break;
   default:
     throw "Unrecognised boundary condition";
