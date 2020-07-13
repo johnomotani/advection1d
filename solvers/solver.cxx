@@ -9,6 +9,7 @@
 
 #include "forwardeuler.hxx"
 #include "rk4.hxx"
+#include "ssprk3.hxx"
 #include "solver.hxx"
 
 Solver::Solver(const Parameters &parameters, const Model &model, Output &output)
@@ -50,6 +51,8 @@ std::unique_ptr<Solver> createSolver(const Parameters &parameters,
     return std::unique_ptr<Solver>(new ForwardEuler(parameters, model, output));
   } else if (type == "rk4") {
     return std::unique_ptr<Solver>(new RK4(parameters, model, output));
+  } else if (type == "ssprk3") {
+    return std::unique_ptr<Solver>(new SSPRK3(parameters, model, output));
   } else {
     std::ostringstream message;
     message << "Unrecognised time-step scheme option " << type << std::endl;
