@@ -8,7 +8,7 @@
 class SSPRK3 : public Solver {
 public:
   SSPRK3(const Parameters &parameters, const Model &model, Output &output);
-  ~SSPRK3() = default;
+  ~SSPRK3() final = default;
 
 protected:
   void updatef() final;
