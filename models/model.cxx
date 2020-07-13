@@ -4,8 +4,9 @@
 
 #include "../parameters.hxx"
 
-#include "upwind.hxx"
+#include "centred.hxx"
 #include "model.hxx"
+#include "upwind.hxx"
 
 Model::Model(const Parameters &parameters)
     : Nz(parameters.Nz), L(parameters.L), dz(parameters.L / parameters.Nz),
@@ -53,6 +54,8 @@ std::unique_ptr<const Model> createModel(const Parameters &parameters) {
   const auto type = parameters.spatial_type;
   if (type == "upwind") {
     return std::make_unique<const Upwind>(parameters);
+  } else if (type == "centred") {
+    return std::make_unique<const Centred>(parameters);
   } else {
     std::ostringstream message;
     message << "Unrecognised spatial discretisation option " << type
