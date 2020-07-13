@@ -32,11 +32,14 @@ const Parameters createParameters() {
   std::cout << std::endl
             << "Parameters" << std::endl
             << "----------" << std::endl;
-  std::cout << "Nz\t" << result.Nz << std::endl;
-  std::cout << "L\t" << result.L << std::endl;
-  std::cout << "dt\t" << result.dt << std::endl;
-  std::cout << "t_out\t" << result.t_out << std::endl;
-  std::cout << "N_out\t" << result.N_out << std::endl;
+  std::cout << "Nz\t\t" << result.Nz << std::endl;
+  std::cout << "L\t\t" << result.L << std::endl;
+  std::cout << "dt\t\t" << result.dt << std::endl;
+  std::cout << "t_out\t\t" << result.t_out << std::endl;
+  std::cout << "N_out\t\t" << result.N_out << std::endl;
+  std::cout << "solver_type\t" << result.solver_type << std::endl;
+
+  std::cout << std::endl;
 
   return result;
 }
