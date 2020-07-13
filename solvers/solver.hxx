@@ -7,23 +7,33 @@
 #include "../models/model.hxx"
 #include "../output.hxx"
 
+#include "../models/upwind.hxx"
+#include "../models/centred.hxx"
+
 class Parameters;
 
 /// Generic base class for explicit time-steppers
 class Solver {
 public:
-  Solver(const Parameters &parameters, const Model *const model,
-         Output &output);
   virtual ~Solver() = default;
 
-  void run();
+  virtual void run() = 0;
+};
+
+template<typename M>
+class SolverBase : public Solver {
+public:
+  SolverBase(const Parameters &parameters, Output &output);
+  virtual ~SolverBase() = default;
+
+  void run() final;
 
 protected:
   virtual void updatef() = 0;
 
   void writeOutput();
 
-  const Model *const model;
+  const M model;
 
   double t;
   double dt;
@@ -38,7 +48,6 @@ private:
   Output &output;
 };
 
-std::unique_ptr<Solver> createSolver(const Parameters &parameters,
-                                     const Model *const model, Output &output);
+std::unique_ptr<Solver> createSolver(const Parameters &parameters, Output &output);
 
 #endif // __SOLVER_H__

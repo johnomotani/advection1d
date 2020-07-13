@@ -11,11 +11,9 @@ int main() {
 
   const auto parameters = createParameters();
 
-  auto model = createModel(parameters);
-
   Output output;
 
-  auto solver = createSolver(parameters, model.get(), output);
+  auto solver = createSolver(parameters, output);
 
   solver->run();
 

@@ -34,6 +34,19 @@ protected:
   BC stringToBC(std::string input);
 };
 
-std::unique_ptr<const Model> createModel(const Parameters &parameters);
+#define FOR_MODEL(model, x, xtype)                                 \
+  if (model == "upwind") {                                         \
+    x(Upwind, xtype)                                               \
+  } else if (model == "centred") {                                 \
+    x(Centred, xtype)                                              \
+  } else {                                                         \
+    std::ostringstream message;                                    \
+    message << "Unrecognised spatial_type " << model << std::endl; \
+    throw std::runtime_error(message.str());                       \
+  }
+
+#define INSTANTIATE_FOR_MODELS(thisclass) \
+  template class thisclass<Upwind>;       \
+  template class thisclass<Centred>;      \
 
 #endif // __MODEL_H__

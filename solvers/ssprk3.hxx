@@ -5,13 +5,21 @@
 
 /// 3rd order, strong-stability-preserving Runge-Kutta time-stepper
 /// https://en.wikipedia.org/wiki/List_of_Runge-Kutta_methods#Third-order_Strong_Stability_Preserving_Runge-Kutta_(SSPRK3)
-class SSPRK3 : public Solver {
+template<typename M>
+class SSPRK3 : public SolverBase<M> {
 public:
-  SSPRK3(const Parameters &parameters, const Model *const model,
-         Output &output);
+  SSPRK3(const Parameters &parameters, Output &output);
   ~SSPRK3() final = default;
 
 protected:
+  using SolverBase<M>::model;
+  using SolverBase<M>::t;
+  using SolverBase<M>::dt;
+  using SolverBase<M>::t_out;
+  using SolverBase<M>::N_out;
+  using SolverBase<M>::Nz_plus_1;
+  using SolverBase<M>::f;
+
   void updatef() final;
 
 private:
