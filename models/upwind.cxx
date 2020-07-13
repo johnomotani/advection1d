@@ -18,7 +18,10 @@ void Upwind::rhs(const double t, Array &f, Array &k) const {
   }
 }
 
-double Upwind::v(const double t, const int i) const { return 0.1; }
+double Upwind::v(const double t, const int i) const {
+  return 0.1;
+  // return 0.1 + 0.05 * sin(2.0 * pi * (i - 1) / Nz);
+}
 
 void Upwind::applyBoundary(const double t, Array &f) const {
   switch (bc) {
