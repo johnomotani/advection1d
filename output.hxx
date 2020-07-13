@@ -2,6 +2,7 @@
 #define __OUTPUT_H__
 
 #include <fstream>
+#include <iomanip>
 
 #include "array.hxx"
 
@@ -9,7 +10,11 @@ class Output {
 public:
   Output()
       : f_file("advection_f.dat", std::fstream::out),
-        t_file("advection_t.dat", std::fstream::out) {}
+        t_file("advection_t.dat", std::fstream::out) {
+    // increase precision of outputs
+    f_file << std::setprecision(16);
+    t_file << std::setprecision(16);
+  }
   ~Output() {
     f_file.close();
     t_file.close();
