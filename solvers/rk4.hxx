@@ -5,8 +5,7 @@
 
 /// 4th order Runge-Kutta time-stepper
 /// https://en.wikipedia.org/wiki/Runge-Kutta_methods
-template<typename M>
-class RK4 : public SolverBase<M> {
+template <typename M> class RK4 : public SolverBase<M> {
 public:
   RK4(const Parameters &parameters, Output &output);
   ~RK4() final = default;

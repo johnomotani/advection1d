@@ -1,14 +1,13 @@
 #include "forwardeuler.hxx"
 
-template<typename M>
+template <typename M>
 ForwardEuler<M>::ForwardEuler(const Parameters &parameters, Output &output)
     : SolverBase<M>(parameters, output) {
 
   k = createArray(Nz_plus_1);
 }
 
-template<typename M>
-void ForwardEuler<M>::updatef() {
+template <typename M> void ForwardEuler<M>::updatef() {
   model.rhs(t, f, k);
 
   for (size_t i = 1; i < Nz_plus_1; i++) {

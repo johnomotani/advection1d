@@ -3,6 +3,8 @@
 
 #include <fstream>
 
+#include "array.hxx"
+
 class Output {
 public:
   Output()

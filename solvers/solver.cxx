@@ -10,7 +10,7 @@
 #include "solver.hxx"
 #include "ssprk3.hxx"
 
-template<typename M>
+template <typename M>
 SolverBase<M>::SolverBase(const Parameters &parameters, Output &output)
     : model(parameters), t(0.0), dt(parameters.dt), t_out(parameters.t_out),
       N_out(parameters.N_out), Nz_plus_1(parameters.Nz + 1), output(output) {
@@ -20,8 +20,7 @@ SolverBase<M>::SolverBase(const Parameters &parameters, Output &output)
   model.initialisef(f);
 }
 
-template<typename M>
-void SolverBase<M>::run() {
+template <typename M> void SolverBase<M>::run() {
   // write initial state
   writeOutput();
 
@@ -42,17 +41,19 @@ void SolverBase<M>::run() {
   std::cout << N_out << " " << t << std::endl;
 }
 
-template<typename M>
-void SolverBase<M>::writeOutput() { output.writeStep(t, f); }
+template <typename M> void SolverBase<M>::writeOutput() {
+  output.writeStep(t, f);
+}
 
 // Explicit instantiation of SolverBase for each model
 template class SolverBase<Upwind>;
 template class SolverBase<Centred>;
 
-#define RETURN_SOLVER(model, solver) \
+#define RETURN_SOLVER(model, solver)                                           \
   return std::unique_ptr<Solver>(new solver<model>(parameters, output));
 
-std::unique_ptr<Solver> createSolver(const Parameters &parameters, Output &output) {
+std::unique_ptr<Solver> createSolver(const Parameters &parameters,
+                                     Output &output) {
   const auto solver_type = parameters.solver_type;
   const auto spatial_type = parameters.spatial_type;
   if (solver_type == "euler") {
@@ -63,7 +64,8 @@ std::unique_ptr<Solver> createSolver(const Parameters &parameters, Output &outpu
     FOR_MODEL(spatial_type, RETURN_SOLVER, SSPRK3)
   } else {
     std::ostringstream message;
-    message << "Unrecognised time-step scheme option " << solver_type << std::endl;
+    message << "Unrecognised time-step scheme option " << solver_type
+            << std::endl;
     throw std::runtime_error(message.str());
   }
 }

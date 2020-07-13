@@ -1,6 +1,6 @@
 #include "ssprk3.hxx"
 
-template<typename M>
+template <typename M>
 SSPRK3<M>::SSPRK3(const Parameters &parameters, Output &output)
     : SolverBase<M>(parameters, output) {
 
@@ -10,8 +10,7 @@ SSPRK3<M>::SSPRK3(const Parameters &parameters, Output &output)
   f_temp = createArray(Nz_plus_1);
 }
 
-template<typename M>
-void SSPRK3<M>::updatef() {
+template <typename M> void SSPRK3<M>::updatef() {
   // k1 = rhs(t[n], f[n])
   model.rhs(t, f, k1);
 

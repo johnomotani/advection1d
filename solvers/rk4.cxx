@@ -1,6 +1,6 @@
 #include "rk4.hxx"
 
-template<typename M>
+template <typename M>
 RK4<M>::RK4(const Parameters &parameters, Output &output)
     : SolverBase<M>(parameters, output) {
 
@@ -11,8 +11,7 @@ RK4<M>::RK4(const Parameters &parameters, Output &output)
   f_temp = createArray(Nz_plus_1);
 }
 
-template<typename M>
-void RK4<M>::updatef() {
+template <typename M> void RK4<M>::updatef() {
   // k1 = rhs(t[n], f[n])
   model.rhs(t, f, k1);
 

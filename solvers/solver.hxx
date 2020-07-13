@@ -7,8 +7,8 @@
 #include "../models/model.hxx"
 #include "../output.hxx"
 
-#include "../models/upwind.hxx"
 #include "../models/centred.hxx"
+#include "../models/upwind.hxx"
 
 class Parameters;
 
@@ -20,8 +20,7 @@ public:
   virtual void run() = 0;
 };
 
-template<typename M>
-class SolverBase : public Solver {
+template <typename M> class SolverBase : public Solver {
 public:
   SolverBase(const Parameters &parameters, Output &output);
   virtual ~SolverBase() = default;
@@ -48,6 +47,7 @@ private:
   Output &output;
 };
 
-std::unique_ptr<Solver> createSolver(const Parameters &parameters, Output &output);
+std::unique_ptr<Solver> createSolver(const Parameters &parameters,
+                                     Output &output);
 
 #endif // __SOLVER_H__

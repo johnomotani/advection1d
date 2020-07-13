@@ -5,8 +5,7 @@
 
 /// Forward-Euler time-stepper
 /// f[n+1] = f[n] + dt * rhs
-template<typename M>
-class ForwardEuler : public SolverBase<M> {
+template <typename M> class ForwardEuler : public SolverBase<M> {
 public:
   ForwardEuler(const Parameters &parameters, Output &output);
   ~ForwardEuler() final = default;
