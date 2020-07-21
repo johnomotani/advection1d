@@ -7,7 +7,7 @@
 
 Chebyshev::Chebyshev(const Parameters &parameters)
     : Nz_with_ghosts(parameters.Nz + 1), Nz(parameters.Nz), L(parameters.L),
-      z(getZValues()), bc(stringToBC(parameters.bc)) {
+      bc(stringToBC(parameters.bc)), z(createZValues()) {
 
   // Initialise as identity for trying out blaspp
   // Column-major order

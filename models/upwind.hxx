@@ -30,7 +30,18 @@ private:
   const double L;
   const double dz;
 
+  const Array createZValues() const {
+    auto z_values = createArray(Nz_with_ghosts);
+    for (size_t i = 0; i < Nz_with_ghosts; ++i) {
+      z_values[i] = i * dz;
+    }
+    return z_values;
+  }
+
   const BC bc = BC::periodic;
+
+public:
+  const Array z;
 };
 
 #endif // __UPWIND_H__

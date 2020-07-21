@@ -7,20 +7,21 @@ from matplotlib import pyplot as plt
 
 def load_data():
     t = np.loadtxt("advection_t.dat")
+    z = np.loadtxt("advection_z.dat")
     f = np.loadtxt("advection_f.dat")
-    return t, f
+    return t, z, f
 
 
-def animate_f(t, f, save_as=None, fps=10):
+def animate_f(t, z, f, save_as=None, fps=10):
     fig, ax = plt.subplots()
 
-    line_block = amp.blocks.Line(f, ax=ax)
+    line_block = amp.blocks.Line(z, f, ax=ax)
 
     timeline = amp.Timeline(t, fps=fps)
 
     animation = amp.Animation([line_block], timeline)
 
-    ax.set_xlabel("z-index")
+    ax.set_xlabel("z")
     ax.set_ylabel("f")
 
     ax.set_ylim([f.min(), f.max()])
@@ -36,6 +37,6 @@ def animate_f(t, f, save_as=None, fps=10):
 
 
 if __name__ == "__main__":
-    t, f = load_data()
-    animation = animate_f(t, f)
+    t, z, f = load_data()
+    animation = animate_f(t, z, f)
     plt.show()

@@ -19,6 +19,8 @@ SolverBase<M>::SolverBase(const Parameters &parameters, Output &output)
   f = createArray(Nz_with_ghosts);
 
   model.initialisef(f);
+
+  output.writeZ(model.z);
 }
 
 template <typename M> void SolverBase<M>::run() {

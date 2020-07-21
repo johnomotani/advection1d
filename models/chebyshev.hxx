@@ -27,15 +27,17 @@ private:
 
   const size_t Nz;
   const double L;
-  const Array z;
   Array z_deriv_coefficients;
 
-  const Array getZValues() const {
+  const Array createZValues() const {
     auto z_values = createArray(Nz_with_ghosts);
     return z_values;
   }
 
   const BC bc = BC::periodic;
+
+public:
+  const Array z;
 };
 
 #endif // __CHEBYSHEV_H__

@@ -6,7 +6,8 @@
 
 Centred::Centred(const Parameters &parameters)
     : Nz_with_ghosts(parameters.Nz + 2), Nz(parameters.Nz), L(parameters.L),
-      dz(parameters.L / parameters.Nz), bc(stringToBC(parameters.bc)) {}
+      dz(parameters.L / parameters.Nz), bc(stringToBC(parameters.bc)),
+      z(createZValues()) {}
 
 void Centred::rhs(const double t, Array &f, Array &k) const {
   // Calculate -v*df/dz and store the result in k
