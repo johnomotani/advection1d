@@ -8,6 +8,7 @@
 #include "../output.hxx"
 
 #include "../models/centred.hxx"
+#include "../models/chebyshev.hxx"
 #include "../models/upwind.hxx"
 
 class Parameters;

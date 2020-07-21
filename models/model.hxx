@@ -9,6 +9,8 @@
     x(Upwind, xtype)                                                           \
   } else if (model == "centred") {                                             \
     x(Centred, xtype)                                                          \
+  } else if (model == "chebyshev") {                                           \
+    x(Chebyshev, xtype)                                                        \
   } else {                                                                     \
     std::ostringstream message;                                                \
     message << "Unrecognised spatial_type " << model << std::endl;             \
@@ -17,7 +19,8 @@
 
 #define INSTANTIATE_FOR_MODELS(thisclass)                                      \
   template class thisclass<Upwind>;                                            \
-  template class thisclass<Centred>;
+  template class thisclass<Centred>;                                           \
+  template class thisclass<Chebyshev>;
 
 enum class BC { periodic, Dirichlet };
 
