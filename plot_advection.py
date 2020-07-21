@@ -36,7 +36,15 @@ def animate_f(t, z, f, save_as=None, fps=10):
     return animation
 
 
+def plot_f0(t, f):
+    plt.figure()
+    plt.plot(t, f[:, 0])
+    plt.xlabel("t")
+    plt.ylabel("f(z=0)")
+
+
 if __name__ == "__main__":
     t, z, f = load_data()
     animation = animate_f(t, z, f)
+    #plot_f0(t, f)
     plt.show()

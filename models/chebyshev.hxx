@@ -1,6 +1,8 @@
 #ifndef __CHEBYSHEV_H__
 #define __CHEBYSHEV_H__
 
+#include <cmath>
+
 #include "../array.hxx"
 #include "model.hxx"
 
@@ -25,12 +27,27 @@ private:
 
   double fLower(const double t) const;
 
+  /// number of grid points, excluding end points
   const size_t Nz;
+
+  /// 'physical' length of grid
   const double L;
+
+  /// Matrix coefficients for d/dz operator
   Array z_deriv_coefficients;
+
+  /// Maximum order of Chebyshev polynomials being used
+  /// One less than number of grid points (including end points)
+  const int N;
 
   const Array createZValues() const {
     auto z_values = createArray(Nz_with_ghosts);
+
+    for (size_t i = 0; i < Nz_with_ghosts; ++i) {
+      /// rescaled from x in [-1, 1] to z in [0, L]
+      z_values[i] = (cos(pi * double(N - i) / N) + 1.0) * 0.5 * L;
+    }
+
     return z_values;
   }
 

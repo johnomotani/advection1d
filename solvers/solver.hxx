@@ -6,12 +6,11 @@
 #include "../array.hxx"
 #include "../models/model.hxx"
 #include "../output.hxx"
+#include "../parameters.hxx"
 
 #include "../models/centred.hxx"
 #include "../models/chebyshev.hxx"
 #include "../models/upwind.hxx"
-
-class Parameters;
 
 /// Generic base class for explicit time-steppers
 class Solver {
