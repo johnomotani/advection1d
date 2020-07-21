@@ -1,0 +1,1 @@
+Tested column-major vs. row-major matrix with blas multiplication. Had set up identity matrix for initial test. Running with 512 element vector, column major took 0.7-0.8s for 10,000 multiplies; row major took 0.95-1.0s. Tests used code at dc1d860c237b5b3b85de73c826a50680a74359f9, with just second argument of cblas_dgemv changed.
