@@ -45,7 +45,8 @@ private:
 
     for (size_t i = 0; i < Nz_with_ghosts; ++i) {
       /// rescaled from x in [-1, 1] to z in [0, L]
-      z_values[i] = (cos(pi * double(N - i) / N) + 1.0) * 0.5 * L;
+      //z_values[i] = (cos(pi * double(N - i) / N) + 1.0) * 0.5 * L;
+      z_values[i] = (cos(pi * (2.0 * double(N - i) - 1.0) / (2.0 * N)) + 1.0) * 0.5 * L;
     }
 
     return z_values;
