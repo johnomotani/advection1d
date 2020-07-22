@@ -66,6 +66,8 @@ void Chebyshev::rhs(const double t, Array &f, Array &k) const {
   for (size_t i = 1; i < Nz; i++) {
     k[i] *= -v(t, i);
   }
+
+  applyDdtBoundary(t, k);
 }
 
 double Chebyshev::v(const double t, const int i) const {
@@ -80,6 +82,22 @@ void Chebyshev::applyBoundary(const double t, Array &f) const {
     break;
   case BC::Dirichlet:
     f[0] = fLower(t);
+    break;
+  default:
+    throw "Unrecognised boundary condition";
+  }
+}
+
+void Chebyshev::applyDdtBoundary(const double t, Array &k) const {
+  switch (bc) {
+  case BC::periodic:
+  {
+    const auto mean = 0.5 * (k[0] + k[Nz - 1]);
+    k[0] = mean;
+    k[Nz - 1] = mean;
+    break;
+  }
+  case BC::Dirichlet:
     break;
   default:
     throw "Unrecognised boundary condition";

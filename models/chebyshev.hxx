@@ -25,6 +25,8 @@ private:
 
   double fLower(const double t) const;
 
+  void applyDdtBoundary(const double t, Array &f) const;
+
   /// number of grid points, including end points
   const size_t Nz;
 
