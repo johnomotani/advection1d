@@ -13,10 +13,9 @@
 template <typename M>
 SolverBase<M>::SolverBase(const Parameters &parameters, Output &output)
     : model(parameters), t(0.0), dt(parameters.dt), t_out(parameters.t_out),
-      N_out(parameters.N_out), Nz_plus_1(parameters.Nz + 1),
-      Nz_with_ghosts(model.Nz_with_ghosts), output(output) {
+      N_out(parameters.N_out), Nz(parameters.N + 1), output(output) {
 
-  f = createArray(Nz_with_ghosts);
+  f = createArray(Nz);
 
   model.initialisef(f);
 
@@ -49,8 +48,6 @@ template <typename M> void SolverBase<M>::writeOutput() {
 }
 
 // Explicit instantiation of SolverBase for each model
-template class SolverBase<Upwind>;
-template class SolverBase<Centred>;
 template class SolverBase<Chebyshev>;
 
 #define RETURN_SOLVER(model, solver)                                           \

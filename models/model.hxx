@@ -5,11 +5,7 @@
 #include <stdexcept>
 
 #define FOR_MODEL(model, x, xtype)                                             \
-  if (model == "upwind") {                                                     \
-    x(Upwind, xtype)                                                           \
-  } else if (model == "centred") {                                             \
-    x(Centred, xtype)                                                          \
-  } else if (model == "chebyshev") {                                           \
+  if (model == "chebyshev") {                                           \
     x(Chebyshev, xtype)                                                        \
   } else {                                                                     \
     std::ostringstream message;                                                \
@@ -18,8 +14,6 @@
   }
 
 #define INSTANTIATE_FOR_MODELS(thisclass)                                      \
-  template class thisclass<Upwind>;                                            \
-  template class thisclass<Centred>;                                           \
   template class thisclass<Chebyshev>;
 
 enum class BC { periodic, Dirichlet };
@@ -27,7 +21,7 @@ enum class BC { periodic, Dirichlet };
 inline BC stringToBC(std::string input) {
   if (input == "periodic") {
     return BC::periodic;
-  } else if (input == "Dirichlet" or input == "diriclet") {
+  } else if (input == "Dirichlet" or input == "dirichlet") {
     return BC::Dirichlet;
   } else {
     std::ostringstream message;

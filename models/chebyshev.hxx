@@ -20,14 +20,12 @@ public:
 
   void initialisef(Array &f) const;
 
-  const size_t Nz_with_ghosts;
-
 private:
   double v(const double t, const int i) const;
 
   double fLower(const double t) const;
 
-  /// number of grid points, excluding end points
+  /// number of grid points, including end points
   const size_t Nz;
 
   /// 'physical' length of grid
@@ -41,9 +39,9 @@ private:
   const int N;
 
   const Array createZValues() const {
-    auto z_values = createArray(Nz_with_ghosts);
+    auto z_values = createArray(Nz);
 
-    for (size_t i = 0; i < Nz_with_ghosts; ++i) {
+    for (size_t i = 0; i < Nz; ++i) {
       /// rescaled from x in [-1, 1] to z in [0, L]
       z_values[i] = (cos(pi * double(N - i) / N) + 1.0) * 0.5 * L;
     }

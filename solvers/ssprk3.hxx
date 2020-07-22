@@ -16,8 +16,7 @@ protected:
   using SolverBase<M>::dt;
   using SolverBase<M>::t_out;
   using SolverBase<M>::N_out;
-  using SolverBase<M>::Nz_plus_1;
-  using SolverBase<M>::Nz_with_ghosts;
+  using SolverBase<M>::Nz;
   using SolverBase<M>::f;
 
   void updatef() final;
@@ -33,14 +32,14 @@ private:
 
   void AequalBplussTimesC(const Array &B, const double s, const Array &C,
                           Array &A) {
-    for (size_t i = 1; i < Nz_plus_1; i++) {
+    for (size_t i = 0; i < Nz; i++) {
       A[i] = B[i] + s * C[i];
     }
   }
 
   void AequalBplussTimesCPlusD(const Array &B, const double s, const Array &C,
                                const Array &D, Array &A) {
-    for (size_t i = 1; i < Nz_plus_1; i++) {
+    for (size_t i = 0; i < Nz; i++) {
       A[i] = B[i] + s * (C[i] + D[i]);
     }
   }

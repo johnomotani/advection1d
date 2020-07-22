@@ -21,7 +21,7 @@ const Parameters createParameters() {
   }
 
   // Get values, using values set in parameters.hxx as defaults
-  GET_OPTION(Nz);
+  GET_OPTION(N);
   GET_OPTION(L);
   GET_OPTION(dt);
   GET_OPTION(t_out);
@@ -33,7 +33,7 @@ const Parameters createParameters() {
   std::cout << std::endl
             << "Parameters" << std::endl
             << "----------" << std::endl;
-  std::cout << "Nz\t\t" << result.Nz << std::endl;
+  std::cout << "N\t\t" << result.N << std::endl;
   std::cout << "L\t\t" << result.L << std::endl;
   std::cout << "dt\t\t" << result.dt << std::endl;
   std::cout << "t_out\t\t" << result.t_out << std::endl;

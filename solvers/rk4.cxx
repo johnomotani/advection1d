@@ -4,11 +4,11 @@ template <typename M>
 RK4<M>::RK4(const Parameters &parameters, Output &output)
     : SolverBase<M>(parameters, output) {
 
-  k1 = createArray(Nz_with_ghosts);
-  k2 = createArray(Nz_with_ghosts);
-  k3 = createArray(Nz_with_ghosts);
-  k4 = createArray(Nz_with_ghosts);
-  f_temp = createArray(Nz_with_ghosts);
+  k1 = createArray(Nz);
+  k2 = createArray(Nz);
+  k3 = createArray(Nz);
+  k4 = createArray(Nz);
+  f_temp = createArray(Nz);
 }
 
 template <typename M> void RK4<M>::updatef() {
@@ -30,7 +30,7 @@ template <typename M> void RK4<M>::updatef() {
   // k4 = rhs(t[n] + dt, f[n] + dt*k3
   model.rhs(t + dt, f_temp, k4);
 
-  for (size_t i = 1; i < Nz_plus_1; i++) {
+  for (size_t i = 0; i < Nz; i++) {
     f[i] = f[i] + 0.16666666666666666 * dt *
                       (k1[i] + 2.0 * k2[i] + 2.0 * k3[i] + k4[i]);
   }

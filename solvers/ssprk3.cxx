@@ -4,10 +4,10 @@ template <typename M>
 SSPRK3<M>::SSPRK3(const Parameters &parameters, Output &output)
     : SolverBase<M>(parameters, output) {
 
-  k1 = createArray(Nz_with_ghosts);
-  k2 = createArray(Nz_with_ghosts);
-  k3 = createArray(Nz_with_ghosts);
-  f_temp = createArray(Nz_with_ghosts);
+  k1 = createArray(Nz);
+  k2 = createArray(Nz);
+  k3 = createArray(Nz);
+  f_temp = createArray(Nz);
 }
 
 template <typename M> void SSPRK3<M>::updatef() {
@@ -25,7 +25,7 @@ template <typename M> void SSPRK3<M>::updatef() {
   // k3 = rhs(t[n] + dt/2, f[n] + dt/4*(k1 + k2)
   model.rhs(t + 0.5 * dt, f_temp, k3);
 
-  for (size_t i = 1; i < Nz_plus_1; i++) {
+  for (size_t i = 0; i < Nz; i++) {
     f[i] = f[i] + 0.16666666666666666 * dt * (k1[i] + k2[i] + 4.0 * k3[i]);
   }
 }

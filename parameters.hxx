@@ -6,8 +6,8 @@
 constexpr double pi = 3.1415926535897932;
 
 struct Parameters {
-  /// Number of spatial grid points
-  int Nz = 32;
+  /// Order of polynomials
+  int N = 32;
 
   /// Size of spatial domain
   double L = 1.0;
@@ -28,7 +28,7 @@ struct Parameters {
   std::string solver_type = "euler";
 
   /// Scheme to use for spatial discretisation
-  std::string spatial_type = "upwind";
+  std::string spatial_type = "chebyshev";
 };
 
 const Parameters createParameters();

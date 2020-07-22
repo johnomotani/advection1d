@@ -8,9 +8,7 @@
 #include "../output.hxx"
 #include "../parameters.hxx"
 
-#include "../models/centred.hxx"
 #include "../models/chebyshev.hxx"
-#include "../models/upwind.hxx"
 
 /// Generic base class for explicit time-steppers
 class Solver {
@@ -38,8 +36,7 @@ protected:
   const double dt;
   const double t_out;
   const int N_out;
-  const size_t Nz_plus_1;
-  const size_t Nz_with_ghosts;
+  const size_t Nz;
 
   // state vector
   Array f;
