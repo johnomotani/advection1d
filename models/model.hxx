@@ -27,7 +27,7 @@ enum class BC { periodic, Dirichlet };
 inline BC stringToBC(std::string input) {
   if (input == "periodic") {
     return BC::periodic;
-  } else if (input == "Dirichlet" or input == "diriclet") {
+  } else if (input == "Dirichlet" or input == "dirichlet") {
     return BC::Dirichlet;
   } else {
     std::ostringstream message;
