@@ -93,6 +93,6 @@ double Chebyshev::fLower(const double t) const {
 void Chebyshev::initialisef(Array &f) const {
   for (size_t i = 0; i < Nz_with_ghosts; ++i) {
     const double zhat = z[i] - 0.5 * L;
-    f[i] = exp(-16.0 * zhat * zhat);
+    f[i] = exp(-64.0 * zhat * zhat / (L * L));
   }
 }
