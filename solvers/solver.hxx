@@ -8,7 +8,7 @@
 #include "../output.hxx"
 #include "../parameters.hxx"
 
-#include "../models/chebyshev.hxx"
+#include "../models/chebyshevmatrix.hxx"
 
 /// Generic base class for explicit time-steppers
 class Solver {

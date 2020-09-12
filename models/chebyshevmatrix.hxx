@@ -1,5 +1,5 @@
-#ifndef __CHEBYSHEV_H__
-#define __CHEBYSHEV_H__
+#ifndef __CHEBYSHEV_MATRIX_H__
+#define __CHEBYSHEV_MATRIX_H__
 
 #include <cmath>
 
@@ -10,9 +10,9 @@ class Parameters;
 
 /// Provides Chebyshev-discretised right-hand-side function
 /// rhs = - v * df/dz
-class Chebyshev {
+class ChebyshevMatrix {
 public:
-  Chebyshev(const Parameters &parameters);
+  ChebyshevMatrix(const Parameters &parameters);
 
   void rhs(const double t, Array &f, Array &k) const;
 
@@ -57,4 +57,4 @@ public:
   const Array z;
 };
 
-#endif // __CHEBYSHEV_H__
+#endif // __CHEBYSHEV_MATRIX_H__

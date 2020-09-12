@@ -3,9 +3,9 @@
 
 #include "../parameters.hxx"
 
-#include "chebyshev.hxx"
+#include "chebyshevmatrix.hxx"
 
-Chebyshev::Chebyshev(const Parameters &parameters)
+ChebyshevMatrix::ChebyshevMatrix(const Parameters &parameters)
     : Nz(parameters.N + 1), L(parameters.L), N(parameters.N),
       bc(stringToBC(parameters.bc)), z(createZValues()) {
 
@@ -43,7 +43,7 @@ Chebyshev::Chebyshev(const Parameters &parameters)
   }
 }
 
-void Chebyshev::rhs(const double t, Array &f, Array &k) const {
+void ChebyshevMatrix::rhs(const double t, Array &f, Array &k) const {
   // Calculate -v*df/dz and store the result in k
 
   applyBoundary(t, f);
@@ -70,12 +70,12 @@ void Chebyshev::rhs(const double t, Array &f, Array &k) const {
   applyDdtBoundary(t, k);
 }
 
-double Chebyshev::v(const double t, const int i) const {
+double ChebyshevMatrix::v(const double t, const int i) const {
   return 0.1;
   // return 0.1 + 0.05 * sin(2.0 * pi * z[i] / L);
 }
 
-void Chebyshev::applyBoundary(const double t, Array &f) const {
+void ChebyshevMatrix::applyBoundary(const double t, Array &f) const {
   switch (bc) {
   case BC::periodic:
     f[0] = f[Nz - 1];
@@ -88,7 +88,7 @@ void Chebyshev::applyBoundary(const double t, Array &f) const {
   }
 }
 
-void Chebyshev::applyDdtBoundary(const double t, Array &k) const {
+void ChebyshevMatrix::applyDdtBoundary(const double t, Array &k) const {
   switch (bc) {
   case BC::periodic:
   {
@@ -104,11 +104,11 @@ void Chebyshev::applyDdtBoundary(const double t, Array &k) const {
   }
 }
 
-double Chebyshev::fLower(const double t) const {
+double ChebyshevMatrix::fLower(const double t) const {
   return sin(t) + cos(0.9 * t) + 0.05 * t;
 }
 
-void Chebyshev::initialisef(Array &f) const {
+void ChebyshevMatrix::initialisef(Array &f) const {
   for (size_t i = 0; i < Nz; ++i) {
     const double zhat = z[i] - 0.5 * L;
     f[i] = exp(-64.0 * zhat * zhat / (L * L));
