@@ -1,7 +1,5 @@
 #include <cblas.h>
-#include <chrono>
 #include <cmath>
-#include <iostream>
 
 #include "../parameters.hxx"
 
@@ -11,17 +9,9 @@ ChebyshevFFT::ChebyshevFFT(const Parameters &parameters)
     : Nz(parameters.N + 1), L(parameters.L), N(parameters.N),
       bc(stringToBC(parameters.bc)), dct(createArray(Nz)), z(createZValues()) {
 
-  auto temp = createArray(Nz);
-  auto start = std::chrono::high_resolution_clock::now();
-
   // Create plan for discrete cosine transform (Real-Even-Discrete-Fourier-Transform)
+  auto temp = createArray(Nz);
   transform_plan = fftw_plan_r2r_1d(Nz, &temp[0], &dct[0], FFTW_REDFT00, FFTW_EXHAUSTIVE);
-
-  auto end = std::chrono::high_resolution_clock::now();
-  std::chrono::duration<double> elapsed = end - start;
-  std::cout << std::endl
-            << "FFTW plan creation took " << elapsed.count() << "s" << std::endl;
-
 }
 
 void ChebyshevFFT::rhs(const double t, Array &f, Array &k) {
@@ -89,22 +79,13 @@ void ChebyshevFFT::initialisef(Array &f) const {
 /// Calculate df/dz by
 /// Chebyshev transform -> spectral derivative -> inverse Chebyshev Transform
 void ChebyshevFFT::dfdz(Array &f, Array& k) {
-  auto start = std::chrono::high_resolution_clock::now();
-  auto end = std::chrono::high_resolution_clock::now();
-  static std::chrono::duration<double> execute=start-end;
-  static std::chrono::duration<double> loop=start-end;
-
   // Transform to Chebyshev-coefficient space
   // The output of the transform is dct and
   // dct[k]/N = c[k]*a[k]
   // where c[k] are the coefficients defined under Boyd's (A.15) and a[k] are the
   // Chebyshev coefficients defined in Boyd's (2.76)
-  start = std::chrono::high_resolution_clock::now();
   fftw_execute_r2r(transform_plan, &f[0], &dct[0]);
-  end = std::chrono::high_resolution_clock::now();
-  execute += end - start;
 
-  start = std::chrono::high_resolution_clock::now();
   // Calculate derivative in Chebyshev space using Boyd's (A.15).
   // Calculate in-place in dct to avoid allocating another array
   dct[N] = 0.0;
@@ -129,14 +110,7 @@ void ChebyshevFFT::dfdz(Array &f, Array& k) {
     temp = dct[k - 1];
     dct[k - 1] = newval;
   }
-  end = std::chrono::high_resolution_clock::now();
-  loop += end - start;
 
   // The inverse transform would transform c[k]*a1[k] to 2*f[j]
-  start = std::chrono::high_resolution_clock::now();
   fftw_execute_r2r(transform_plan, &dct[0], &k[0]);
-  end = std::chrono::high_resolution_clock::now();
-  execute += end - start;
-
-  std::cout<<"planning="<<planning.count()<<" execute="<<execute.count()<<" loop="<<loop.count()<<std::endl;
 }
