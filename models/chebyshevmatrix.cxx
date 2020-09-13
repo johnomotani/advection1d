@@ -37,7 +37,7 @@ ChebyshevMatrix::ChebyshevMatrix(const Parameters &parameters)
         const double sign = ((N - i) + (N - j)) % 2 == 0 ? 1.0 : -1.0;
         const double p_i = ((N - i) == 0 or (N - i) == N) ? 2.0 : 1.0;
         const double p_j = ((N - j) == 0 or (N - j) == N) ? 2.0 : 1.0;
-        z_deriv_coefficients[ind] = sign * p_i / (p_j * (x_i - x_j));
+        z_deriv_coefficients[ind] = sign * dxdz * p_i / (p_j * (x_i - x_j));
       }
     }
   }
