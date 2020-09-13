@@ -86,20 +86,6 @@ void ChebyshevFFT::dfdz(Array &f, Array& k) {
   // Chebyshev coefficients defined in Boyd's (2.76)
   fftw_execute_r2r(transform_plan, &f[0], &dct[0]);
 
-  // Calculate derivative in Chebyshev space using Boyd's (A.15).
-  // Calculate in-place in dct to avoid allocating another array
-  dct[N] = 0.0;
-
-  auto temp = dct[N - 1];
-  dct[N - 1] = 0.0;
-
-  for (size_t j = N - 1; j > 0; --j) {
-    // temp is input-dct[j]
-    const auto newval = 2.0 * double(j) * temp + dct[j + 1];
-    temp = dct[j - 1];
-    dct[j - 1] = newval;
-  }
-
   // contributions to prefactor:
   //   1/N  convert input dct[k] to c[k]*a[k]
   //   1/2  convert c[k]*a1[k] to input for inverse transform that outputs df/dx[j]
@@ -111,8 +97,19 @@ void ChebyshevFFT::dfdz(Array &f, Array& k) {
   // actually just provides the conversion of Boyd's a[0] to the 0'th coefficient of the
   // input to the REDFT00.
   const auto prefactor = -1.0 / (double(N) * L);
-  for (auto &value : dct) {
-    value *= prefactor;
+
+  // Calculate derivative in Chebyshev space using Boyd's (A.15).
+  // Calculate in-place in dct to avoid allocating another array
+  dct[N] = 0.0;
+
+  auto temp = prefactor * dct[N - 1];
+  dct[N - 1] = 0.0;
+
+  for (size_t j = N - 1; j > 0; --j) {
+    // temp is input-dct[j]
+    const auto newval = 2.0 * double(j) * temp + dct[j + 1];
+    temp = prefactor * dct[j - 1];
+    dct[j - 1] = newval;
   }
 
   // The inverse transform would transform c[k]*a1[k] to 2*f[j]
