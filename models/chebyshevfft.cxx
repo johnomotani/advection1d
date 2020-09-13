@@ -100,10 +100,11 @@ void ChebyshevFFT::dfdz(Array &f, Array& k) {
 
   // Calculate derivative in Chebyshev space using Boyd's (A.15).
   // Calculate in-place in dct to avoid allocating another array
+  const auto before_loop_temp = prefactor * dct[N];
   dct[N] = 0.0;
 
   auto temp = prefactor * dct[N - 1];
-  dct[N - 1] = 0.0;
+  dct[N - 1] = 2.0 * double(N) * before_loop_temp;
 
   for (size_t j = N - 1; j > 0; --j) {
     // temp is input-dct[j]
