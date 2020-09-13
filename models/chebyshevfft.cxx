@@ -15,12 +15,7 @@ ChebyshevFFT::ChebyshevFFT(const Parameters &parameters)
   auto start = std::chrono::high_resolution_clock::now();
 
   // Create plan for discrete cosine transform (Real-Even-Discrete-Fourier-Transform)
-  // Done here so we don't include the timing of the first plan-creation in the main loop.
-  // Some solvers store several state vectors, so need to create a new plan each time rhs is
-  // called, but new plans are identical to the inital one, so this should be cheap.
-  auto temp_plan = fftw_plan_r2r_1d(Nz, &temp[0], &dct[0], FFTW_REDFT00, FFTW_EXHAUSTIVE);
-  //auto temp_plan = fftw_plan_r2r_1d(Nz, &temp[0], &dct[0], FFTW_REDFT00, FFTW_PATIENT);
-  fftw_destroy_plan(temp_plan);
+  transform_plan = fftw_plan_r2r_1d(Nz, &temp[0], &dct[0], FFTW_REDFT00, FFTW_EXHAUSTIVE);
 
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsed = end - start;
@@ -96,7 +91,6 @@ void ChebyshevFFT::initialisef(Array &f) const {
 void ChebyshevFFT::dfdz(Array &f, Array& k) {
   auto start = std::chrono::high_resolution_clock::now();
   auto end = std::chrono::high_resolution_clock::now();
-  static std::chrono::duration<double> planning=start-end;
   static std::chrono::duration<double> execute=start-end;
   static std::chrono::duration<double> loop=start-end;
 
@@ -106,12 +100,7 @@ void ChebyshevFFT::dfdz(Array &f, Array& k) {
   // where c[k] are the coefficients defined under Boyd's (A.15) and a[k] are the
   // Chebyshev coefficients defined in Boyd's (2.76)
   start = std::chrono::high_resolution_clock::now();
-  auto forward_plan = fftw_plan_r2r_1d(Nz, &f[0], &dct[0], FFTW_REDFT00, FFTW_WISDOM_ONLY);
-  end = std::chrono::high_resolution_clock::now();
-  planning += end - start;
-  start = std::chrono::high_resolution_clock::now();
-  fftw_execute(forward_plan);
-  fftw_destroy_plan(forward_plan);
+  fftw_execute_r2r(transform_plan, &f[0], &dct[0]);
   end = std::chrono::high_resolution_clock::now();
   execute += end - start;
 
@@ -145,12 +134,7 @@ void ChebyshevFFT::dfdz(Array &f, Array& k) {
 
   // The inverse transform would transform c[k]*a1[k] to 2*f[j]
   start = std::chrono::high_resolution_clock::now();
-  auto inverse_plan = fftw_plan_r2r_1d(Nz, &dct[0], &k[0], FFTW_REDFT00, FFTW_WISDOM_ONLY);
-  end = std::chrono::high_resolution_clock::now();
-  planning += end - start;
-  start = std::chrono::high_resolution_clock::now();
-  fftw_execute(inverse_plan);
-  fftw_destroy_plan(inverse_plan);
+  fftw_execute_r2r(transform_plan, &dct[0], &k[0]);
   end = std::chrono::high_resolution_clock::now();
   execute += end - start;
 

@@ -15,6 +15,10 @@ class ChebyshevFFT {
 public:
   ChebyshevFFT(const Parameters &parameters);
 
+  ~ChebyshevFFT() {
+    fftw_destroy_plan(transform_plan);
+  }
+
   void rhs(const double t, Array &f, Array &k);
 
   void applyBoundary(const double t, Array &f) const;
@@ -57,6 +61,7 @@ private:
   const BC bc = BC::periodic;
 
   Array dct;
+  fftw_plan transform_plan;
 
 public:
   const Array z;
