@@ -7,6 +7,8 @@
 #define FOR_MODEL(model, x, xtype)                                             \
   if (model == "chebyshevmatrix") {                                            \
     x(ChebyshevMatrix, xtype)                                                  \
+  } else if (model == "chebyshevfft") {                                        \
+    x(ChebyshevFFT, xtype)                                                     \
   } else {                                                                     \
     std::ostringstream message;                                                \
     message << "Unrecognised spatial_type " << model << std::endl;             \
@@ -14,7 +16,8 @@
   }
 
 #define INSTANTIATE_FOR_MODELS(thisclass)                                      \
-  template class thisclass<ChebyshevMatrix>;
+  template class thisclass<ChebyshevMatrix>;                                   \
+  template class thisclass<ChebyshevFFT>;
 
 enum class BC { periodic, Dirichlet };
 

@@ -28,7 +28,7 @@ struct Parameters {
   std::string solver_type = "euler";
 
   /// Scheme to use for spatial discretisation
-  std::string spatial_type = "chebyshevmatrix";
+  std::string spatial_type = "chebyshevfft";
 };
 
 const Parameters createParameters();

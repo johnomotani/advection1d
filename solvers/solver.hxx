@@ -9,6 +9,7 @@
 #include "../parameters.hxx"
 
 #include "../models/chebyshevmatrix.hxx"
+#include "../models/chebyshevfft.hxx"
 
 /// Generic base class for explicit time-steppers
 class Solver {
@@ -30,7 +31,7 @@ protected:
 
   void writeOutput();
 
-  const M model;
+  M model;
 
   double t;
   const double dt;

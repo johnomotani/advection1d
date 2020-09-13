@@ -48,7 +48,7 @@ template <typename M> void SolverBase<M>::writeOutput() {
 }
 
 // Explicit instantiation of SolverBase for each model
-template class SolverBase<Chebyshev>;
+INSTANTIATE_FOR_MODELS(SolverBase)
 
 #define RETURN_SOLVER(model, solver)                                           \
   return std::unique_ptr<Solver>(new solver<model>(parameters, output));
