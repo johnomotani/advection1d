@@ -96,13 +96,14 @@ void ChebyshevFFT::dfdz(Array &f, Array& k) {
   // contributions to prefactor:
   //   1/N  convert input dct[k] to c[k]*a[k]
   //   1/2  convert c[k]*a1[k] to input for inverse transform that outputs df/dx[j]
+  //   -1   account for sign in x = -cos(theta)
   //   2/L  dx/dz converts from df/dx (derivative on [-1,1] grid) to df/dz (derivative
   //        on physical grid [0, L]
   // Due to definitions of FFTW3's REDFT00 transform and Boyd's definition (2.76) of the
   // spectral coefficients, the c[k] factor in the recursion equation for the derivative
   // actually just provides the conversion of Boyd's a[0] to the 0'th coefficient of the
   // input to the REDFT00.
-  const auto prefactor = 1.0 / (double(N) * L);
+  const auto prefactor = -1.0 / (double(N) * L);
 
   for (size_t k = N - 1; k > 0; --k) {
     // temp is input-dct[k]
