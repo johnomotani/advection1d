@@ -6,6 +6,7 @@
 #include "../parameters.hxx"
 
 #include "forwardeuler.hxx"
+#include "rk2.hxx"
 #include "rk4.hxx"
 #include "solver.hxx"
 #include "ssprk3.hxx"
@@ -61,6 +62,8 @@ std::unique_ptr<Solver> createSolver(const Parameters &parameters,
     FOR_MODEL(spatial_type, RETURN_SOLVER, ForwardEuler)
   } else if (solver_type == "rk4") {
     FOR_MODEL(spatial_type, RETURN_SOLVER, RK4)
+  } else if (solver_type == "rk2") {
+    FOR_MODEL(spatial_type, RETURN_SOLVER, RK2)
   } else if (solver_type == "ssprk3") {
     FOR_MODEL(spatial_type, RETURN_SOLVER, SSPRK3)
   } else {
