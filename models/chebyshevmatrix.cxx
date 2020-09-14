@@ -92,9 +92,10 @@ void ChebyshevMatrix::applyDdtBoundary(const double t, Array &k) const {
   switch (bc) {
   case BC::periodic:
   {
-    const auto mean = 0.5 * (k[0] + k[Nz - 1]);
-    k[0] = mean;
-    k[Nz - 1] = mean;
+    //const auto mean = 0.5 * (k[0] + k[Nz - 1]);
+    //std::cout << k[0] << " " << k[Nz - 1] << " " << mean << std::endl;
+    //k[0] = mean;
+    //k[Nz - 1] = mean;
     break;
   }
   case BC::Dirichlet:
@@ -105,12 +106,13 @@ void ChebyshevMatrix::applyDdtBoundary(const double t, Array &k) const {
 }
 
 double ChebyshevMatrix::fLower(const double t) const {
-  return sin(t) + cos(0.9 * t) + 0.05 * t;
+  return 0.0;
+  //return sin(t) + cos(0.9 * t) + 0.05 * t;
 }
 
 void ChebyshevMatrix::initialisef(Array &f) const {
   for (size_t i = 0; i < Nz; ++i) {
     const double zhat = z[i] - 0.5 * L;
-    f[i] = exp(-64.0 * zhat * zhat / (L * L));
+    f[i] = exp(-128.0 * zhat * zhat / (L * L));
   }
 }

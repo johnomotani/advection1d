@@ -72,7 +72,7 @@ double ChebyshevFFT::fLower(const double t) const {
 void ChebyshevFFT::initialisef(Array &f) const {
   for (size_t i = 0; i < Nz; ++i) {
     const double zhat = z[i] - 0.5 * L;
-    f[i] = exp(-64.0 * zhat * zhat / (L * L));
+    f[i] = exp(-128.0 * zhat * zhat / (L * L));
   }
 }
 
