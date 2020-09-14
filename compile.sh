@@ -32,9 +32,15 @@ if [ ! -d external/BLAS-3.8.0 ]; then
   popd
 fi
 
-#g++ -O3 -std=c++14 -o advection1d -Iexternal/fftw_inst/include -Lexternal/fftw_inst/lib *.cxx models/*.cxx solvers/*.cxx -lblas -lfftw3
+# using system-installed libraries
+#g++ -O3 -std=c++14 -o advection1d *.cxx models/*.cxx solvers/*.cxx -lblas -lfftw3
 
 g++ -O3 -std=c++14 -o advection1d -Iexternal/fftw_inst/include -Lexternal/fftw_inst/lib -Iexternal/CBLAS/include *.cxx models/*.cxx solvers/*.cxx external/CBLAS/lib/cblas_LINUX.a external/BLAS-3.8.0/blas_LINUX.a -lgfortran -lfftw3
+
+# for debugging
 #g++ -O0 -g -std=c++14 -o advection1d -Iexternal/fftw_inst/include -Lexternal/fftw_inst/lib -Iexternal/CBLAS/include -Lexternal/CBLAS/lib -Lexternal/BLAS-3.8.0 *.cxx models/*.cxx solvers/*.cxx -lcblas_LINUX -lblas_LINUX -lgfortran -lfftw3
+
+# for profiling
+#g++ -pg -O3 -std=c++14 -o advection1d -Iexternal/fftw_inst/include -Lexternal/fftw_inst/lib -Iexternal/CBLAS/include *.cxx models/*.cxx solvers/*.cxx external/CBLAS/lib/cblas_LINUX.a external/BLAS-3.8.0/blas_LINUX.a -lgfortran -lfftw3
 
 exit 0
