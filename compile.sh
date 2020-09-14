@@ -11,6 +11,8 @@ if [ ! -d external/fftw-3.3.8 ]; then
   mkdir fftw_inst
   cd fftw-3.3.8
   ./configure --prefix $( readlink -f ../fftw_inst ) --enable-sse2 --enable-avx --enable-avx2 --enable-avx512 --enable-generic-simd128 --enable-generic-simd256 --enable-fma --disable-fortran
+  # configuration for profiling
+  #./configure --prefix $( readlink -f ../fftw_inst ) --enable-sse2 --enable-avx --enable-avx2 --enable-avx512 --enable-generic-simd128 --enable-generic-simd256 --enable-fma --disable-fortran CFLAGS=-pg
   make
   make install
   popd
