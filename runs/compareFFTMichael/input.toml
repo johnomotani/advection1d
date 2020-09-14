@@ -1,0 +1,7 @@
+solver_type = "rk2"
+N = 32
+dt = 1e-3
+N_out = 100
+t_out = 0.1
+bc = "Dirichlet"
+L = 2.0
