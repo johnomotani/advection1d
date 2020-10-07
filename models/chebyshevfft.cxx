@@ -127,7 +127,7 @@ void ChebyshevFFT::dfdz(Array &f, Array& k) {
   fftw_execute_dft_c2r(inverse_plan, dct, &doubled_f[0]);
 
   // copy result into k
-  for (size_t i = 0; i < Nz -1; i++) {
+  for (size_t i = 0; i < Nz; i++) {
     k[i] = doubled_f[i];
   }
 }
