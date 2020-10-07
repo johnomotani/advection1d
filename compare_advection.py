@@ -96,6 +96,6 @@ if __name__ == "__main__":
     fmin = max(f_M.min(), f_J.min())
     fmax = max(f_M.max(), f_J.max())
 
-    anim = animate_lines([line_M, line_J], t_M, fmin, fmax)
+    anim = animate_lines([line_M, line_J], t_M, fmin, fmax, save_as="compare")
 
     plt.show()
