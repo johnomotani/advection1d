@@ -84,9 +84,9 @@ void ChebyshevFFT::initialisef(Array &f) const {
 /// Chebyshev transform -> spectral derivative -> inverse Chebyshev Transform
 void ChebyshevFFT::dfdz(Array &f, Array& k) {
   // create even input array on 0->2pi
-  for (size_t i = 0; i < Nz -1; i++) {
+  for (size_t i = 0; i < N; i++) {
     doubled_f[i] = f[i];
-    doubled_f[2*Nz - 3 - i] = f[i + 1];
+    doubled_f[2*N - 1 - i] = f[i + 1];
   }
 
   // Transform to Chebyshev-coefficient space
