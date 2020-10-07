@@ -20,6 +20,7 @@ public:
     fftw_destroy_plan(transform_plan);
     fftw_destroy_plan(inverse_plan);
     fftw_free(dct);
+    fftw_free(doubled_f);
   }
 
   void rhs(const double t, Array &f, Array &k);
@@ -64,7 +65,7 @@ private:
   const BC bc = BC::periodic;
 
   fftw_complex *dct;
-  Array doubled_f;
+  fftw_complex *doubled_f;
   fftw_plan transform_plan;
   fftw_plan inverse_plan;
 

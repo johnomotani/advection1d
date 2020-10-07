@@ -7,15 +7,14 @@
 
 ChebyshevFFT::ChebyshevFFT(const Parameters &parameters)
     : Nz(parameters.N + 1), L(parameters.L), N(parameters.N),
-      bc(stringToBC(parameters.bc)), doubled_f(createArray(2*parameters.N)),
-      z(createZValues()) {
+      bc(stringToBC(parameters.bc)), z(createZValues()) {
 
-  dct = fftw_alloc_complex(Nz);
+  dct = fftw_alloc_complex(2*N);
+  doubled_f = fftw_alloc_complex(2*N);
 
   // Create plan for discrete cosine transform (Real-Even-Discrete-Fourier-Transform)
-  auto temp = createArray(2*Nz - 2);
-  transform_plan = fftw_plan_dft_r2c_1d(2*Nz - 2, &temp[0], dct, FFTW_EXHAUSTIVE);
-  inverse_plan = fftw_plan_dft_c2r_1d(2*Nz - 2, dct, &temp[0], FFTW_EXHAUSTIVE);
+  transform_plan = fftw_plan_dft_1d(2*Nz - 2, doubled_f, dct, FFTW_FORWARD, FFTW_EXHAUSTIVE);
+  inverse_plan = fftw_plan_dft_1d(2*Nz - 2, dct, doubled_f, FFTW_BACKWARD, FFTW_EXHAUSTIVE);
 }
 
 void ChebyshevFFT::rhs(const double t, Array &f, Array &k) {
@@ -85,8 +84,10 @@ void ChebyshevFFT::initialisef(Array &f) const {
 void ChebyshevFFT::dfdz(Array &f, Array& k) {
   // create even input array on 0->2pi
   for (size_t i = 0; i < N; i++) {
-    doubled_f[i] = f[i];
-    doubled_f[2*N - 1 - i] = f[i + 1];
+    doubled_f[i][0] = f[i];
+    doubled_f[i][1] = 0.0;
+    doubled_f[2*N - 1 - i][0] = f[i + 1];
+    doubled_f[2*N - 1 - i][1] = 0.0;
   }
 
   // Transform to Chebyshev-coefficient space
@@ -94,7 +95,7 @@ void ChebyshevFFT::dfdz(Array &f, Array& k) {
   // dct[k]/N = c[k]*a[k]
   // where c[k] are the coefficients defined under Boyd's (A.15) and a[k] are the
   // Chebyshev coefficients defined in Boyd's (2.76)
-  fftw_execute_dft_r2c(transform_plan, &doubled_f[0], dct);
+  fftw_execute_dft(transform_plan, doubled_f, dct);
 
   // contributions to prefactor:
   //   1/N  convert input dct[k] to c[k]*a[k]
@@ -115,19 +116,22 @@ void ChebyshevFFT::dfdz(Array &f, Array& k) {
 
   auto temp = prefactor * dct[N - 1][0];
   dct[N - 1][0] = 2.0 * double(N) * before_loop_temp;
+  dct[N + 1][0] = dct[N - 1][0];
 
-  for (size_t j = N - 1; j > 0; --j) {
+  for (size_t j = N - 1; j > 1; --j) {
     // temp is input-dct[j]
     const auto newval = 2.0 * double(j) * temp + dct[j + 1][0];
     temp = prefactor * dct[j - 1][0];
     dct[j - 1][0] = newval;
+    dct[2*N - j + 1][0] = newval;
   }
+  dct[0][0] = 2.0 * temp + dct[2][0];
 
   // The inverse transform would transform c[k]*a1[k] to 2*f[j]
-  fftw_execute_dft_c2r(inverse_plan, dct, &doubled_f[0]);
+  fftw_execute_dft(inverse_plan, dct, doubled_f);
 
   // copy result into k
   for (size_t i = 0; i < Nz; i++) {
-    k[i] = doubled_f[i];
+    k[i] = doubled_f[i][0];
   }
 }
