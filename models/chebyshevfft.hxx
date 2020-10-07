@@ -2,6 +2,7 @@
 #define __CHEBYSHEV_FFT_H__
 
 #include <cmath>
+#include <complex.h>
 #include <fftw3.h>
 
 #include "../array.hxx"
@@ -17,6 +18,8 @@ public:
 
   ~ChebyshevFFT() {
     fftw_destroy_plan(transform_plan);
+    fftw_destroy_plan(inverse_plan);
+    fftw_free(dct);
   }
 
   void rhs(const double t, Array &f, Array &k);
@@ -60,8 +63,10 @@ private:
 
   const BC bc = BC::periodic;
 
-  Array dct;
+  fftw_complex *dct;
+  Array doubled_f;
   fftw_plan transform_plan;
+  fftw_plan inverse_plan;
 
 public:
   const Array z;
