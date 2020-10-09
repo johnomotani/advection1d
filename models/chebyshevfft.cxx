@@ -95,7 +95,7 @@ void ChebyshevFFT::dfdz(Array &f, Array& k) {
   // dct[k]/N = c[k]*a[k]
   // where c[k] are the coefficients defined under Boyd's (A.15) and a[k] are the
   // Chebyshev coefficients defined in Boyd's (2.76)
-  fftw_execute_dft(transform_plan, doubled_f, dct);
+  fftw_execute(transform_plan);
 
   // contributions to prefactor:
   //   1/N  convert input dct[k] to c[k]*a[k]
@@ -128,7 +128,7 @@ void ChebyshevFFT::dfdz(Array &f, Array& k) {
   dct[0][0] = 2.0 * temp + dct[2][0];
 
   // The inverse transform would transform c[k]*a1[k] to 2*f[j]
-  fftw_execute_dft(inverse_plan, dct, doubled_f);
+  fftw_execute(inverse_plan);
 
   // copy result into k
   for (size_t i = 0; i < Nz; i++) {
