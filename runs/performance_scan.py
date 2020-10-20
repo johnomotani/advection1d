@@ -10,6 +10,8 @@ import toml
 from plot_performance_scan import plot_scan
 
 n_values = list(range(8, 129)) + [256]
+# Means we start longest jobs first, so should load-balance a bit better
+n_values.reverse()
 models = [
     "chebyshevmatrix",
     "chebyshevfft",
@@ -17,7 +19,7 @@ models = [
     "chebyshevfft_r2c",
 ]
 
-inputs = [(model, n) for model in models for n in n_values]
+inputs = [(model, n) for n in n_values for model in models]
 
 base_directory = Path().absolute()
 advection1d_path = Path(__file__).parent.joinpath("..", "advection1d").absolute()
