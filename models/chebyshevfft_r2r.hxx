@@ -15,9 +15,7 @@ class ChebyshevFFT_r2r {
 public:
   ChebyshevFFT_r2r(const Parameters &parameters);
 
-  ~ChebyshevFFT_r2r() {
-    fftw_destroy_plan(transform_plan);
-  }
+  ~ChebyshevFFT_r2r() { fftw_destroy_plan(transform_plan); }
 
   void rhs(const double t, Array &f, Array &k);
 

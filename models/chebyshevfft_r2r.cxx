@@ -9,9 +9,11 @@ ChebyshevFFT_r2r::ChebyshevFFT_r2r(const Parameters &parameters)
     : Nz(parameters.N + 1), L(parameters.L), N(parameters.N),
       bc(stringToBC(parameters.bc)), dct(createArray(Nz)), z(createZValues()) {
 
-  // Create plan for discrete cosine transform (Real-Even-Discrete-Fourier-Transform)
+  // Create plan for discrete cosine transform
+  // (Real-Even-Discrete-Fourier-Transform)
   auto temp = createArray(Nz);
-  transform_plan = fftw_plan_r2r_1d(Nz, &temp[0], &dct[0], FFTW_REDFT00, FFTW_EXHAUSTIVE);
+  transform_plan =
+      fftw_plan_r2r_1d(Nz, &temp[0], &dct[0], FFTW_REDFT00, FFTW_EXHAUSTIVE);
 }
 
 void ChebyshevFFT_r2r::rhs(const double t, Array &f, Array &k) {
@@ -49,12 +51,11 @@ void ChebyshevFFT_r2r::applyBoundary(const double t, Array &f) const {
 
 void ChebyshevFFT_r2r::applyDdtBoundary(const double t, Array &k) const {
   switch (bc) {
-  case BC::periodic:
-  {
-    //const auto mean = 0.5 * (k[0] + k[Nz - 1]);
-    //std::cout << k[0] << " " << k[Nz - 1] << " " << mean << std::endl;
-    //k[0] = mean;
-    //k[Nz - 1] = mean;
+  case BC::periodic: {
+    // const auto mean = 0.5 * (k[0] + k[Nz - 1]);
+    // std::cout << k[0] << " " << k[Nz - 1] << " " << mean << std::endl;
+    // k[0] = mean;
+    // k[Nz - 1] = mean;
     break;
   }
   case BC::Dirichlet:
@@ -66,7 +67,7 @@ void ChebyshevFFT_r2r::applyDdtBoundary(const double t, Array &k) const {
 
 double ChebyshevFFT_r2r::fLower(const double t) const {
   return 0.0;
-  //return sin(t) + cos(0.9 * t) + 0.05 * t;
+  // return sin(t) + cos(0.9 * t) + 0.05 * t;
 }
 
 void ChebyshevFFT_r2r::initialisef(Array &f) const {
@@ -78,24 +79,24 @@ void ChebyshevFFT_r2r::initialisef(Array &f) const {
 
 /// Calculate df/dz by
 /// Chebyshev transform -> spectral derivative -> inverse Chebyshev Transform
-void ChebyshevFFT_r2r::dfdz(Array &f, Array& k) {
+void ChebyshevFFT_r2r::dfdz(Array &f, Array &k) {
   // Transform to Chebyshev-coefficient space
   // The output of the transform is dct and
   // dct[k]/N = c[k]*a[k]
-  // where c[k] are the coefficients defined under Boyd's (A.15) and a[k] are the
-  // Chebyshev coefficients defined in Boyd's (2.76)
+  // where c[k] are the coefficients defined under Boyd's (A.15) and a[k] are
+  // the Chebyshev coefficients defined in Boyd's (2.76)
   fftw_execute_r2r(transform_plan, &f[0], &dct[0]);
 
   // contributions to prefactor:
   //   1/N  convert input dct[k] to c[k]*a[k]
-  //   1/2  convert c[k]*a1[k] to input for inverse transform that outputs df/dx[j]
-  //   -1   account for sign in x = -cos(theta)
-  //   2/L  dx/dz converts from df/dx (derivative on [-1,1] grid) to df/dz (derivative
+  //   1/2  convert c[k]*a1[k] to input for inverse transform that outputs
+  //   df/dx[j] -1   account for sign in x = -cos(theta) 2/L  dx/dz converts
+  //   from df/dx (derivative on [-1,1] grid) to df/dz (derivative
   //        on physical grid [0, L]
-  // Due to definitions of FFTW3's REDFT00 transform and Boyd's definition (2.76) of the
-  // spectral coefficients, the c[k] factor in the recursion equation for the derivative
-  // actually just provides the conversion of Boyd's a[0] to the 0'th coefficient of the
-  // input to the REDFT00.
+  // Due to definitions of FFTW3's REDFT00 transform and Boyd's definition
+  // (2.76) of the spectral coefficients, the c[k] factor in the recursion
+  // equation for the derivative actually just provides the conversion of Boyd's
+  // a[0] to the 0'th coefficient of the input to the REDFT00.
   const auto prefactor = -1.0 / (double(N) * L);
 
   // Calculate derivative in Chebyshev space using Boyd's (A.15).

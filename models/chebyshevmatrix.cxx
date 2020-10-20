@@ -14,8 +14,8 @@ ChebyshevMatrix::ChebyshevMatrix(const Parameters &parameters)
   // range [-1, 1]. z-coordinate here is in range [0, L]. So z = L/2 * (x+1),
   // dz/dx = L/2
   //
-  // i, j here are (N - i) (N - j) for Boyd. Conventions chosen here to have z increasing
-  // with i.
+  // i, j here are (N - i) (N - j) for Boyd. Conventions chosen here to have z
+  // increasing with i.
   //
   // Note: not optimal to have if statements inside loop body, but this is only
   // done once during initialisation, so nicer to have clear code that looks
@@ -49,18 +49,18 @@ void ChebyshevMatrix::rhs(const double t, Array &f, Array &k) const {
   applyBoundary(t, f);
 
   // dfdz = alpha * z_deriv_coefficients.f + beta * dfdz
-  cblas_dgemv(CblasColMajor,  // Matrix layout
-              CblasNoTrans,   // Do not transpose matrix
-              Nz, // Number of rows
-              Nz, // Number of columns
-              1.0,            // Scalar coefficient multiplying matrix
+  cblas_dgemv(CblasColMajor, // Matrix layout
+              CblasNoTrans,  // Do not transpose matrix
+              Nz,            // Number of rows
+              Nz,            // Number of columns
+              1.0,           // Scalar coefficient multiplying matrix
               z_deriv_coefficients.data(), // Derivative matrix coefficients
-              Nz, // Leading dimension of A (=number of rows)
-              f.data(),       // Pointer to f's data
-              1,              // Stride between elements of f
-              0.0,            // Scalar beta multiplying dfdz on rhs
-              k.data(),       // Pointer to dfdz's data
-              1               // Stride between elements of dfdz
+              Nz,       // Leading dimension of A (=number of rows)
+              f.data(), // Pointer to f's data
+              1,        // Stride between elements of f
+              0.0,      // Scalar beta multiplying dfdz on rhs
+              k.data(), // Pointer to dfdz's data
+              1         // Stride between elements of dfdz
   );
 
   for (size_t i = 1; i < Nz; i++) {
@@ -90,12 +90,11 @@ void ChebyshevMatrix::applyBoundary(const double t, Array &f) const {
 
 void ChebyshevMatrix::applyDdtBoundary(const double t, Array &k) const {
   switch (bc) {
-  case BC::periodic:
-  {
-    //const auto mean = 0.5 * (k[0] + k[Nz - 1]);
-    //std::cout << k[0] << " " << k[Nz - 1] << " " << mean << std::endl;
-    //k[0] = mean;
-    //k[Nz - 1] = mean;
+  case BC::periodic: {
+    // const auto mean = 0.5 * (k[0] + k[Nz - 1]);
+    // std::cout << k[0] << " " << k[Nz - 1] << " " << mean << std::endl;
+    // k[0] = mean;
+    // k[Nz - 1] = mean;
     break;
   }
   case BC::Dirichlet:
@@ -107,7 +106,7 @@ void ChebyshevMatrix::applyDdtBoundary(const double t, Array &k) const {
 
 double ChebyshevMatrix::fLower(const double t) const {
   return 0.0;
-  //return sin(t) + cos(0.9 * t) + 0.05 * t;
+  // return sin(t) + cos(0.9 * t) + 0.05 * t;
 }
 
 void ChebyshevMatrix::initialisef(Array &f) const {
