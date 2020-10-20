@@ -46,5 +46,5 @@ def plot_f0(t, f):
 if __name__ == "__main__":
     t, z, f = load_data()
     animation = animate_f(t, z, f)
-    #plot_f0(t, f)
+    # plot_f0(t, f)
     plt.show()

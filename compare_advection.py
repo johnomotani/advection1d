@@ -8,16 +8,16 @@ from sys import argv
 
 def load_data_Michael(inputfilename):
     def commastrip(s):
-        if s.endswith(b','):
+        if s.endswith(b","):
             return s[:-1]
         else:
             return s
 
-    t,z,v,f = np.loadtxt(
+    t, z, v, f = np.loadtxt(
         inputfilename,
-        usecols=(1,3,5,7),
-        converters={1:commastrip, 3:commastrip, 5:commastrip},
-        unpack=True
+        usecols=(1, 3, 5, 7),
+        converters={1: commastrip, 3: commastrip, 5: commastrip},
+        unpack=True,
     )
 
     unique_ts = np.unique(t)
@@ -76,7 +76,6 @@ if __name__ == "__main__":
     t_M, z_M, f_M = load_data_Michael(inputfilename_M)
     line_M = make_line(z_M, f_M, "Michael")
 
-
     # Load and plot data from John's 'advection_1d'
     ###############################################
     inputdirectoryname_J = argv[2]
@@ -87,9 +86,8 @@ if __name__ == "__main__":
 
     line_J = make_line(z_J, f_J, "John")
 
-
     # check times are consistent for animation
-    if not np.allclose(t_M, t_J, rtol=1.e-14):
+    if not np.allclose(t_M, t_J, rtol=1.0e-14):
         raise ValueError(f"times are not consistent\n{t_M}\n{t_J}")
 
     # get limits for plot

@@ -8,16 +8,16 @@ from sys import argv
 
 def load_data_Michael(inputfilename):
     def commastrip(s):
-        if s.endswith(b','):
+        if s.endswith(b","):
             return s[:-1]
         else:
             return s
 
-    t,z,v,f = np.loadtxt(
+    t, z, v, f = np.loadtxt(
         inputfilename,
-        usecols=(1,3,5,7),
-        converters={1:commastrip, 3:commastrip, 5:commastrip},
-        unpack=True
+        usecols=(1, 3, 5, 7),
+        converters={1: commastrip, 3: commastrip, 5: commastrip},
+        unpack=True,
     )
 
     unique_ts = np.unique(t)
@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
     # check times are consistent for animation
     for t in times[1:]:
-        if not np.allclose(times[0], t, rtol=1.e-14):
+        if not np.allclose(times[0], t, rtol=1.0e-14):
             raise ValueError(f"times are not consistent\n{times[0]}\n{t}")
 
     # get limits for plot
