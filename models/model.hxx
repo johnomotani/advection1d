@@ -9,6 +9,10 @@
     x(ChebyshevMatrix, xtype)                                                  \
   } else if (model == "chebyshevfft") {                                        \
     x(ChebyshevFFT, xtype)                                                     \
+  } else if (model == "chebyshevfft_r2r") {                                    \
+    x(ChebyshevFFT_r2r, xtype)                                                 \
+  } else if (model == "chebyshevfft_r2c") {                                    \
+    x(ChebyshevFFT_r2c, xtype)                                                 \
   } else {                                                                     \
     std::ostringstream message;                                                \
     message << "Unrecognised spatial_type " << model << std::endl;             \
@@ -17,7 +21,9 @@
 
 #define INSTANTIATE_FOR_MODELS(thisclass)                                      \
   template class thisclass<ChebyshevMatrix>;                                   \
-  template class thisclass<ChebyshevFFT>;
+  template class thisclass<ChebyshevFFT>;                                      \
+  template class thisclass<ChebyshevFFT_r2r>;                                  \
+  template class thisclass<ChebyshevFFT_r2c>;
 
 enum class BC { periodic, Dirichlet };
 
