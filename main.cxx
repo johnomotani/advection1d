@@ -1,4 +1,5 @@
 #include <chrono>
+#include <iomanip>
 #include <iostream>
 
 #include "models/model.hxx"
@@ -20,7 +21,7 @@ int main() {
   solver->run();
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsed = end - start;
-  std::cout << std::endl
+  std::cout << std::endl << std::setprecision(15)
             << "Main solve took " << elapsed.count() << "s" << std::endl;
 
   return 0;
