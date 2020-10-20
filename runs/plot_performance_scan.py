@@ -7,21 +7,35 @@ import numpy as np
 
 trendlines = True
 
+# plot_func = plt.loglog
+# plot_func = plt.semilogx
+# plot_func = plt.semilogy
+plot_func = plt.plot
+
+n_max = 128
+
 
 def plot_scan(result_file=None):
     if result_file is None:
         result_file = "scan.h5"
     r = h5py.File(result_file, "r")
 
+    plot_save_name = result_file.split(".")[0] + "_timing.pdf"
+
     fig = plt.figure()
     cycle = iter(plt.rcParams["axes.prop_cycle"])
+    max_list = []
     for model, model_group in r.items():
-        n = [int(i) for i in model_group]
+        n = [int(i) for i in model_group if int(i) <= n_max]
         n.sort()
         avg_time = [model_group[str(i)]["avg_time"][0] for i in n]
         n = np.array(n)
         color = next(cycle)["color"]
-        plt.loglog(n, avg_time, label=model, color=color)
+        plot_func(n, avg_time, label=model, color=color)
+
+        if model != "chebyshevmatrix":
+            # exclude matrix solve from setting plot limits
+            max_list.append(max(avg_time))
 
         if trendlines:
             # plot power law trend line
@@ -38,11 +52,14 @@ def plot_scan(result_file=None):
             best_ind = np.argmin(avg_time / fit_values)
             fit_values *= avg_time[best_ind] / fit_values[best_ind]
 
-            plt.loglog(n, fit_values, "--", color=color)
+            plot_func(n, fit_values, "--", color=color)
+
+    ymin, ymax = plt.ylim()
+    plt.ylim([ymin, max(max_list)])
 
     plt.legend()
 
-    plt.savefig("scan_timing.pdf")
+    plt.savefig(plot_save_name)
 
     plt.show()
 
