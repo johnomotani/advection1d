@@ -83,6 +83,9 @@ def plot_scan(result_file=None):
     ymin, ymax = plt.ylim()
     plt.ylim([ymin, max(max_list)])
 
+    plt.xlabel("Nz")
+    plt.ylabel("run time (s)")
+
     plt.legend()
 
     plt.savefig(plot_save_name)
