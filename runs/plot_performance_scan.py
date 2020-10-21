@@ -6,7 +6,8 @@ import numpy as np
 from statistics import mean, stdev
 
 
-trendlines = True
+# trendlines = True
+trendlines = False
 
 # plot_func = plt.loglog
 # plot_func = plt.semilogx
