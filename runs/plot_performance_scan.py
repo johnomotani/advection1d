@@ -90,6 +90,23 @@ def plot_scan(result_file=None):
 
     plt.savefig(plot_save_name)
 
+    julia = None
+    c = None
+    for r in r_list:
+        if "juliafft" in r:
+            julia = r["juliafft"]
+        if "chebyshevfft" in r:
+            c = r["chebyshevfft"]
+    if julia is not None and c is not None:
+        plt.figure()
+        n_julia = [int(i) for i in julia]
+        n_c = [int(i) for i in c]
+        n = [n for n in n_julia if n in n_c]
+        ratio = [julia[str(i)]["avg_time"][0] / c[str(i)]["avg_time"][0] for i in n]
+        plt.plot(n, ratio)
+        plt.xlabel("Nz")
+        plt.ylabel("time(Julia) / time(C++)")
+
     plt.show()
 
 
