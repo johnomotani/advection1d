@@ -6,6 +6,9 @@ from matplotlib import pyplot as plt
 from sys import argv
 
 
+tmax = 100
+
+
 def load_data_Michael(inputfilename):
     def commastrip(s):
         if s.endswith(b","):
@@ -74,12 +77,16 @@ if __name__ == "__main__":
     #####################################################
     inputfilename_M = argv[1]
     t_M, z_M, f_M = load_data_Michael(inputfilename_M)
+    t_M = t_M[:tmax]
+    f_M = f_M[:tmax, :]
     line_M = make_line(z_M, f_M, "Michael")
 
     # Load and plot data from John's 'advection_1d'
     ###############################################
     inputdirectoryname_J = argv[2]
     t_J, z_J, f_J = load_data_John(inputdirectoryname_J)
+    t_J = t_M[:tmax]
+    f_J = f_M[:tmax, :]
 
     # offset z to make it consistent with Michael's
     z_J = z_J - z_J[0] + z_M[0]
