@@ -92,7 +92,7 @@ def plot_scan(result_file=None):
     ymin, ymax = plt.ylim()
     plt.ylim([ymin, max(max_list)])
 
-    plt.xlabel("Nz")
+    plt.xlabel("N")
     plt.ylabel("run time (s)")
 
     plt.legend()
@@ -113,7 +113,7 @@ def plot_scan(result_file=None):
         n = [n for n in n_julia if n in n_c]
         ratio = [julia[str(i)]["avg_time"][0] / c[str(i)]["avg_time"][0] for i in n]
         plt.plot(n, ratio)
-        plt.xlabel("Nz")
+        plt.xlabel("N")
         plt.ylabel("time(Julia) / time(C++)")
 
     plt.show()
