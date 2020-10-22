@@ -14,6 +14,8 @@ trendlines = False
 # plot_func = plt.semilogy
 plot_func = plt.plot
 
+plot_scatter = False
+
 n_max = 128
 
 
@@ -56,14 +58,15 @@ def plot_scan(result_file=None):
             n = [int(i) for i in model_group if int(i) <= n_max]
             n.sort()
             avg_time = np.array([model_group[str(i)]["avg_time"][0] for i in n])
-            scatter = np.array([stdev(model_group[str(i)]["times"]) for i in n])
             n = np.array(n)
             color = next(cycle)["color"]
             plot_func(n, avg_time, label=model, color=color)
             # if plot_func is plt.plot:
-            plt.fill_between(
-                n, avg_time - scatter, avg_time + scatter, color=color, alpha=0.3
-            )
+            if plot_scatter:
+                scatter = np.array([stdev(model_group[str(i)]["times"]) for i in n])
+                plt.fill_between(
+                    n, avg_time - scatter, avg_time + scatter, color=color, alpha=0.3
+                )
 
             if model != "chebyshevmatrix":
                 # exclude matrix solve from setting plot limits
