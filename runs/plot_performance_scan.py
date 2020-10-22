@@ -116,6 +116,8 @@ def plot_scan(result_file=None):
         plt.xlabel("N")
         plt.ylabel("time(Julia) / time(C++)")
 
+    plt.savefig("julia_c_ratio.pdf")
+
     plt.show()
 
 
